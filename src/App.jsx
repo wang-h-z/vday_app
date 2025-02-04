@@ -1,35 +1,41 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 
-function App() {
-  const [count, setCount] = useState(0)
+import Button from './components/Button'
+import SuccessModal from './components/SuccessModal'
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+function App() {
+ const [noCount, setNoCount] = useState(0)
+ const [yesPressed, setYesPressed] = useState(false)
+ const [noButtonStyle, setNoButtonStyle] = useState({})
+
+ const handleNoClick = () => {
+   setNoCount(c => c + 1)
+   setNoButtonStyle({
+     position: 'absolute', 
+     left: `${Math.random() * (window.innerWidth - 100)}px`,
+     top: `${Math.random() * (window.innerHeight - 50)}px`,
+     transition: 'all 0.3s'
+   })
+ }
+
+ return (
+   <div className="app">
+     <h1>Will you be my Valentine?</h1>
+     
+     <div className="buttons">
+       <Button onClick={() => setYesPressed(true)}>
+         Yes 💖
+       </Button>
+
+       <Button onClick={handleNoClick} style={noButtonStyle}>
+         {['No', 'Sure?', 'Really?'][noCount] || 'Please?'}
+       </Button>
+     </div>
+
+     <SuccessModal isOpen={yesPressed} />
+   </div>
+ )
 }
 
 export default App
