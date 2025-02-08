@@ -1,19 +1,57 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { getTokenFromUrl, loginUrl } from './utils/auth';
 import ReactDOM from 'react-dom/client';
 import './App.css'
 import Button from './components/Button'
 import SuccessModal from './components/SuccessModal'
 import ProfilePictures from './components/ProfilePictures'
 import EmojiRain from './components/EmojiRain'
+import SpotifyPlayer from './components/SpotifyPlayer';
 
 function App() {
+  
  const [noCount, setNoCount] = useState(0)
  const [yesPressed, setYesPressed] = useState(false)
  const [noPosition, setNoPosition] = useState({ x: 100, y: 0 })
  const [isHovered, setIsHovered] = useState(false)
- 
+ const [token, setToken] = useState(null);
  const wolfEmojis = ['🐺', '🐺', '🐺', '🌙', '🐾'];
  const flowerEmojis = ['🌹', '🌸', '🌷', '🌺', '💐'];
+
+ console.log("Client ID:", import.meta.env.VITE_SPOTIFY_CLIENT_ID);
+
+ useEffect(() => {
+
+  // First check localStorage
+  const storedToken = localStorage.getItem('spotify_token');
+  console.log('Stored token:', storedToken);
+
+  // Then check URL hash
+  const hash = getTokenFromUrl();
+  const _token = hash.access_token;
+  console.log('URL Hash:', hash);
+  console.log('URL Token:', _token);
+
+  // Clear hash if exists
+  if (window.location.hash) {
+    window.location.hash = "";
+  }
+
+  if (_token) {
+    console.log('Setting token from URL');
+    localStorage.setItem('spotify_token', _token);
+    setToken(_token);
+  } else if (storedToken) {
+    console.log('Setting token from localStorage');
+    setToken(storedToken);
+  } else {
+    console.log('No token found, redirecting to Spotify login');
+    window.location.href = loginUrl;
+  }
+}, []);
+
+console.log('Current token state:', token);
+
 
  const handleYesClick = () => {
    setYesPressed(true);
@@ -109,6 +147,13 @@ function App() {
        isOpen={yesPressed} 
        onClose={handleModalClose}
      />
+
+    {token && (
+      <SpotifyPlayer 
+        accessToken={token}
+        className="fixed bottom-4 left-4 z-50"  
+      />
+    )}
    </div>
  )
 }

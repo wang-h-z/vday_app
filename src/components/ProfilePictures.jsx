@@ -87,7 +87,7 @@ const ProfilePictures = ({ image1Src, image2Src, onProfileClick }) => {
           transition={{ delay: 0.3 }}
         >
           <span className="bg-white px-4 py-1 rounded-full shadow-md text-rose-500 font-semibold flex items-center gap-1">
-            Your Date 😁👍 <span className="text-sm"></span>
+            Your Date 😁 <span className="text-sm"></span>
           </span>
         </motion.div>
       </motion.div>
