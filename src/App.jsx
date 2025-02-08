@@ -1,9 +1,9 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
+import ReactDOM from 'react-dom/client';
 import './App.css'
 import Button from './components/Button'
 import SuccessModal from './components/SuccessModal'
 import ProfilePictures from './components/ProfilePictures'
-import HeartRain from './components/HeartRain'
 import EmojiRain from './components/EmojiRain'
 
 function App() {
@@ -11,9 +11,30 @@ function App() {
   const [yesPressed, setYesPressed] = useState(false)
   const [noPosition, setNoPosition] = useState({ x: 0, y: 0 })
   const [isMoving, setIsMoving] = useState(false)
-  const [showHearts, setShowHearts] = useState(false);
-  const [showWolfRain, setShowWolfRain] = useState(false);
-  const [showFlowerRain, setShowFlowerRain] = useState(false);
+  const [rainComponents, setRainComponents] = useState([]);
+  
+  const wolfEmojis = ['🐺', '🌙', '🐾'];
+  const flowerEmojis = ['🌹', '🌸', '🌷', '🌺', '💐'];
+
+  const handleProfileClick = (side) => {
+    // Create and append a new div for this rain instance
+    const container = document.createElement('div');
+    document.body.appendChild(container);
+
+    // Render a new, independent rain instance
+    const root = ReactDOM.createRoot(container);
+    root.render(
+      <EmojiRain 
+        emojis={side === 'left' ? wolfEmojis : flowerEmojis} 
+        onComplete={() => {
+          root.unmount();
+          document.body.removeChild(container);
+        }}
+      />
+    );
+  };
+
+  const heartRainRef = useRef()
 
   const handleNoClick = () => {
     setNoCount(c => c + 1)
@@ -24,27 +45,14 @@ function App() {
     setNoPosition({ x: newX, y: newY })
   }
 
+  const handleRainComplete = (rainId) => {
+    setRains(prev => prev.filter(rain => rain.id !== rainId));
+  };
+
   const handleYesClick = () => {
     setYesPressed(true);
-    setShowHearts(true);
-    // Reset the heart rain after animation
-    setTimeout(() => {
-      setShowHearts(false);
-    }, 3000); // Adjust timing as needed
+    heartRainRef.current?.createRainInstance();
   };
-
-  const handleProfileClick = (side) => {
-    if (side === 'left') {
-      setShowWolfRain(true);
-      setTimeout(() => setShowWolfRain(false), 2000);
-    } else {
-      setShowFlowerRain(true);
-      setTimeout(() => setShowFlowerRain(false), 2000);
-    }
-  };
-
-  const wolfEmojis = ['🐺', '🌙', '🐾'];
-  const flowerEmojis = ['🌹', '🌸', '🌷', '🌺', '💐'];
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-pink-100 p-8">
@@ -81,9 +89,7 @@ function App() {
       </div>
 
       <SuccessModal isOpen={yesPressed} />
-      <HeartRain show={showHearts} />
-      <EmojiRain show={showWolfRain} emojis={wolfEmojis} side="left" />
-      <EmojiRain show={showFlowerRain} emojis={flowerEmojis} side="right" />
+      <EmojiRain ref={heartRainRef} emojis={['❤️']} />
     </div>
   )
 }
