@@ -2,13 +2,15 @@ import { useState } from 'react'
 import './App.css'
 import Button from './components/Button'
 import SuccessModal from './components/SuccessModal'
-import ProfilePictures from './components/ProfilePictures';
+import ProfilePictures from './components/ProfilePictures'
+import HeartRain from './components/HeartRain'
 
 function App() {
   const [noCount, setNoCount] = useState(0)
   const [yesPressed, setYesPressed] = useState(false)
   const [noPosition, setNoPosition] = useState({ x: 0, y: 0 })
   const [isMoving, setIsMoving] = useState(false)
+  const [showHearts, setShowHearts] = useState(false);
 
   const handleNoClick = () => {
     setNoCount(c => c + 1)
@@ -18,6 +20,15 @@ function App() {
     const newY = Math.random() * (window.innerHeight - 100)
     setNoPosition({ x: newX, y: newY })
   }
+
+  const handleYesClick = () => {
+    setYesPressed(true);
+    setShowHearts(true);
+    // Reset the heart rain after animation
+    setTimeout(() => {
+      setShowHearts(false);
+    }, 3000); // Adjust timing as needed
+  };
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-pink-100 p-8">
@@ -32,7 +43,7 @@ function App() {
       <div className="flex gap-8 items-center relative">
         <Button 
           className="bg-rose-500 hover:bg-rose-600 px-8 py-4 text-xl font-semibold shadow-lg rounded-xl"
-          onClick={() => setYesPressed(true)}
+          onClick={handleYesClick}
         >
           Yes 💖
         </Button>
@@ -53,6 +64,7 @@ function App() {
       </div>
 
       <SuccessModal isOpen={yesPressed} />
+      <HeartRain show={showHearts} />
     </div>
   )
 }
