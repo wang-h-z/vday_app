@@ -9,7 +9,6 @@ const generateRandomString = (length) => {
   }
   return text;
 };
-
 const state = generateRandomString(16);
 
 // Create login URL
