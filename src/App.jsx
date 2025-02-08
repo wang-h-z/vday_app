@@ -2,6 +2,7 @@ import { useState } from 'react'
 import './App.css'
 import Button from './components/Button'
 import SuccessModal from './components/SuccessModal'
+import ProfilePictures from './components/ProfilePictures';
 
 function App() {
   const [noCount, setNoCount] = useState(0)
@@ -20,6 +21,10 @@ function App() {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-pink-100 p-8">
+      <ProfilePictures 
+        image1Src="/path-to-your-image.jpg"
+        image2Src="/path-to-date-image.jpg"
+      />
       <h1 className="text-6xl font-bold mb-16 text-gray-800">
         { 'Be my valentines (ik i asked u alr but yah.)' }
       </h1>
