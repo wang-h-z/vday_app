@@ -1,20 +1,28 @@
 import { motion, AnimatePresence } from 'framer-motion';
+import { dateSpots } from '../constants/dateSpots';
+import DateSpotSelector from './DateSpotSelector';
 
-const SuccessModal = ({ isOpen }) => {
+const SuccessModal = ({ isOpen, onClose }) => {
+  const handleBackdropClick = (e) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
+
   return (
-    <AnimatePresence>
+    <AnimatePresence mode="wait">
       {isOpen && (
-        <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-black/50 flex items-center justify-center"
+        <div 
+          className="fixed inset-0 bg-black/50 flex items-center justify-center p-4"
+          onClick={handleBackdropClick}
         >
-          <motion.div 
-            initial={{ scale: 0.5 }}
-            animate={{ scale: 1 }}
-            exit={{ scale: 0.5 }}
-            className="bg-pink-100 p-8 rounded-xl shadow-xl text-center"
+          <motion.div
+            initial={{ scale: 0.5, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.5, opacity: 0 }}
+            transition={{ duration: 0.2 }} // Faster animation
+            className="bg-pink-50 p-8 rounded-3xl shadow-2xl text-center max-w-4xl w-full"
+            onClick={e => e.stopPropagation()}
           >
             <motion.div 
               animate={{ 
@@ -22,11 +30,14 @@ const SuccessModal = ({ isOpen }) => {
                 scale: [1, 1.2, 1] 
               }}
               transition={{ repeat: Infinity }}
+              className="mb-6"
             >
-              <h2 className="text-3xl font-bold mb-4">Yay! 🎉</h2>
+              <h2 className="text-3xl font-bold mb-4">YIPPIE! 🎉</h2>
             </motion.div>
-            <p className="text-xl">I knew you'd say yes! 💕</p>
-            <div className="flex justify-center mt-4 space-x-2">
+
+            <p className="text-xl mb-6">lmaoooo i knew you'd say yes! 💕</p>
+
+            <div className="flex justify-center mb-8 space-x-2">
               {[...Array(3)].map((_, i) => (
                 <motion.span
                   key={i}
@@ -42,11 +53,19 @@ const SuccessModal = ({ isOpen }) => {
                 </motion.span>
               ))}
             </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
+              {dateSpots.map((spot, index) => (
+                <div key={spot.id} className="w-full">
+                  <DateSpotSelector {...spot} />
+                </div>
+              ))}
+            </div>
           </motion.div>
-        </motion.div>
+        </div>
       )}
     </AnimatePresence>
   );
 };
 
-export default SuccessModal
+export default SuccessModal;

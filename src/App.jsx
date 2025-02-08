@@ -1,4 +1,5 @@
-import { useState, useRef } from 'react'
+// App.jsx
+import { useState } from 'react'
 import ReactDOM from 'react-dom/client';
 import './App.css'
 import Button from './components/Button'
@@ -18,7 +19,6 @@ function App() {
   const handleYesClick = () => {
     setYesPressed(true);
     
-    // Create heart rain using same pattern
     const container = document.createElement('div');
     document.body.appendChild(container);
     
@@ -26,6 +26,7 @@ function App() {
     root.render(
       <EmojiRain 
         emojis={['❤️']} 
+        count={50}  // Specify higher count just for heart rain
         onComplete={() => {
           root.unmount();
           document.body.removeChild(container);
@@ -35,11 +36,9 @@ function App() {
   };
 
   const handleProfileClick = (side) => {
-    // Create and append a new div for this rain instance
     const container = document.createElement('div');
     document.body.appendChild(container);
 
-    // Render a new, independent rain instance
     const root = ReactDOM.createRoot(container);
     root.render(
       <EmojiRain 
@@ -52,31 +51,30 @@ function App() {
     );
   };
 
-  const heartRainRef = useRef()
-
   const handleNoClick = () => {
     setNoCount(c => c + 1)
     setIsMoving(true)
-    // Calculate new position within viewport bounds
     const newX = Math.random() * (window.innerWidth - 200)
     const newY = Math.random() * (window.innerHeight - 100)
     setNoPosition({ x: newX, y: newY })
   }
 
-  const handleRainComplete = (rainId) => {
-    setRains(prev => prev.filter(rain => rain.id !== rainId));
+  const handleModalClose = () => {
+    setYesPressed(false);
+    setNoCount(0);
+    setIsMoving(false);
+    setNoPosition({ x: 0, y: 0 });
   };
-
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-pink-100 p-8">
       <ProfilePictures 
-        image1Src="/path-to-your-image.jpg"
-        image2Src="/path-to-date-image.jpg"
+        image1Src="/cece.jpg"
+        image2Src="/me.jpg"
         onProfileClick={handleProfileClick}
       />
       <h1 className="text-6xl font-bold mb-16 text-gray-800">
-        { 'Be my valentines (ik i asked u alr but yah.)' }
+        be my valentines pls (ik i asked u alr but yah.)
       </h1>
       
       <div className="flex gap-8 items-center relative">
@@ -102,7 +100,10 @@ function App() {
         </Button>
       </div>
 
-      <SuccessModal isOpen={yesPressed} />
+      <SuccessModal 
+        isOpen={yesPressed} 
+        onClose={handleModalClose}
+      />
     </div>
   )
 }
