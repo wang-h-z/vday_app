@@ -4,6 +4,7 @@ import Button from './components/Button'
 import SuccessModal from './components/SuccessModal'
 import ProfilePictures from './components/ProfilePictures'
 import HeartRain from './components/HeartRain'
+import EmojiRain from './components/EmojiRain'
 
 function App() {
   const [noCount, setNoCount] = useState(0)
@@ -11,6 +12,8 @@ function App() {
   const [noPosition, setNoPosition] = useState({ x: 0, y: 0 })
   const [isMoving, setIsMoving] = useState(false)
   const [showHearts, setShowHearts] = useState(false);
+  const [showWolfRain, setShowWolfRain] = useState(false);
+  const [showFlowerRain, setShowFlowerRain] = useState(false);
 
   const handleNoClick = () => {
     setNoCount(c => c + 1)
@@ -30,11 +33,25 @@ function App() {
     }, 3000); // Adjust timing as needed
   };
 
+  const handleProfileClick = (side) => {
+    if (side === 'left') {
+      setShowWolfRain(true);
+      setTimeout(() => setShowWolfRain(false), 2000);
+    } else {
+      setShowFlowerRain(true);
+      setTimeout(() => setShowFlowerRain(false), 2000);
+    }
+  };
+
+  const wolfEmojis = ['🐺', '🌙', '🐾'];
+  const flowerEmojis = ['🌹', '🌸', '🌷', '🌺', '💐'];
+
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-pink-100 p-8">
       <ProfilePictures 
         image1Src="/path-to-your-image.jpg"
         image2Src="/path-to-date-image.jpg"
+        onProfileClick={handleProfileClick}
       />
       <h1 className="text-6xl font-bold mb-16 text-gray-800">
         { 'Be my valentines (ik i asked u alr but yah.)' }
@@ -65,6 +82,8 @@ function App() {
 
       <SuccessModal isOpen={yesPressed} />
       <HeartRain show={showHearts} />
+      <EmojiRain show={showWolfRain} emojis={wolfEmojis} side="left" />
+      <EmojiRain show={showFlowerRain} emojis={flowerEmojis} side="right" />
     </div>
   )
 }
