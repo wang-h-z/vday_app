@@ -11,10 +11,28 @@ function App() {
   const [yesPressed, setYesPressed] = useState(false)
   const [noPosition, setNoPosition] = useState({ x: 0, y: 0 })
   const [isMoving, setIsMoving] = useState(false)
-  const [rainComponents, setRainComponents] = useState([]);
   
   const wolfEmojis = ['🐺', '🌙', '🐾'];
   const flowerEmojis = ['🌹', '🌸', '🌷', '🌺', '💐'];
+
+  const handleYesClick = () => {
+    setYesPressed(true);
+    
+    // Create heart rain using same pattern
+    const container = document.createElement('div');
+    document.body.appendChild(container);
+    
+    const root = ReactDOM.createRoot(container);
+    root.render(
+      <EmojiRain 
+        emojis={['❤️']} 
+        onComplete={() => {
+          root.unmount();
+          document.body.removeChild(container);
+        }}
+      />
+    );
+  };
 
   const handleProfileClick = (side) => {
     // Create and append a new div for this rain instance
@@ -49,10 +67,6 @@ function App() {
     setRains(prev => prev.filter(rain => rain.id !== rainId));
   };
 
-  const handleYesClick = () => {
-    setYesPressed(true);
-    heartRainRef.current?.createRainInstance();
-  };
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-pink-100 p-8">
@@ -89,7 +103,6 @@ function App() {
       </div>
 
       <SuccessModal isOpen={yesPressed} />
-      <EmojiRain ref={heartRainRef} emojis={['❤️']} />
     </div>
   )
 }
