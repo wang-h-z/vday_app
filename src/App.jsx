@@ -18,6 +18,7 @@ function App() {
  const wolfEmojis = ['🐺', '🐺', '🐺', '🌙', '🐾'];
  const flowerEmojis = ['🌹', '🌸', '🌷', '🌺', '💐'];
  console.log("Client ID:", import.meta.env.VITE_SPOTIFY_CLIENT_ID);
+ console.log("VITE_SERVER_URL:", import.meta.env.VITE_SERVER_URL);
 
  useEffect(() => {
 
@@ -26,7 +27,7 @@ function App() {
   console.log('Stored token:', storedToken);
 
   // Then check URL hash
-  const hash = getTokenFromUrl();
+  const hash = getTokenFromUrl(); 
   const _token = hash.access_token;
   console.log('URL Hash:', hash);
   console.log('URL Token:', _token);
@@ -81,7 +82,8 @@ console.log('Current token state:', token);
   
   setIsHovered(true);
   setNoPosition({ x: newX - window.innerWidth/2, y: newY - window.innerHeight/2 });
-  setNoCount(c => c + 1); // Move this from click to hover
+  setNoCount(c => c + 1);
+  setTimeout(50)
 };
 
  const handleProfileClick = (side) => {
@@ -123,7 +125,7 @@ console.log('Current token state:', token);
           className="bg-rose-500 hover:bg-rose-600 px-8 py-4 text-xl font-semibold shadow-lg rounded-xl"
           onClick={handleYesClick}
         >
-          Yes 💖
+          Yes!!!
         </Button>
 
         <Button 
