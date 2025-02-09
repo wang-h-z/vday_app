@@ -17,7 +17,6 @@ function App() {
  const [token, setToken] = useState(null);
  const wolfEmojis = ['🐺', '🐺', '🐺', '🌙', '🐾'];
  const flowerEmojis = ['🌹', '🌸', '🌷', '🌺', '💐'];
-
  console.log("Client ID:", import.meta.env.VITE_SPOTIFY_CLIENT_ID);
 
  useEffect(() => {
@@ -155,6 +154,7 @@ console.log('Current token state:', token);
       />
     )}
    </div>
+   
  )
 }
 
