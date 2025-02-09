@@ -7,6 +7,8 @@ import SuccessModal from './components/SuccessModal'
 import ProfilePictures from './components/ProfilePictures'
 import EmojiRain from './components/EmojiRain'
 import SpotifyPlayer from './components/SpotifyPlayer';
+import ceceImg from './assets/cece.jpg'
+import meImg from './assets/me.jpg'
 
 function App() {
   
@@ -110,8 +112,8 @@ console.log('Current token state:', token);
  return (
    <div className="min-h-screen flex flex-col items-center justify-center bg-pink-100 p-8">
      <ProfilePictures 
-       image1Src="/cece.jpg"
-       image2Src="/me.jpg"
+       image1Src={ceceImg}
+       image2Src={meImg}
        onProfileClick={handleProfileClick}
      />
      <h1 className="text-6xl font-bold mb-16 text-gray-800">
