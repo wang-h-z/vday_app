@@ -1,7 +1,7 @@
 export const authEndpoint = "https://accounts.spotify.com/authorize";
 export const clientId = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
 export const redirectUri = import.meta.env.PROD 
-  ? "vday-app-delta.vercel.app"  // Vercel production URL
+  ? "https://wang-h-z.github.io/vday_app/"
   : "http://localhost:5173";
 export const scopes = [
   "streaming",
