@@ -54,11 +54,16 @@ const SuccessModal = ({ isOpen, onClose }) => {
               ))}
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
+            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4">
               {dateSpots.map((spot, index) => (
-                <div key={spot.id} className="w-full">
+                <motion.div
+                  key={spot.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.5 + (index * 0.1) }}
+                >
                   <DateSpotSelector {...spot} />
-                </div>
+                </motion.div>
               ))}
             </div>
           </motion.div>
