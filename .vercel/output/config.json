@@ -1,0 +1,13 @@
+{
+  "version": 3,
+  "routes": [
+    {
+      "src": "^/(.*)$",
+      "dest": "/"
+    }
+  ],
+  "framework": {
+    "version": "6.1.0"
+  },
+  "crons": []
+}
