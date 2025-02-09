@@ -6,7 +6,7 @@ const Button = ({ onClick, className, style, children, isNo, onMouseEnter }) => 
       className={className}
       style={style}
       onClick={onClick}
-      onMouseEnter={onMouseEnter}  // Add this
+      onMouseEnter={onMouseEnter} 
     >
       {children}
     </button>
